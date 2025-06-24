@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open-Flow Human E-Commerce</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 30px; }
+    .log {
+      background: #fffbe6;
+      padding: 12px;
+      margin: 12px 0;
+      border-left: 5px solid #f4b400;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 18px;
+      font-size: 16px;
+      background: #34a853;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2d8741;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🧑‍💻 Welcome to the JS Shopping Assistant!</h2>
+  <p>🛍️ Ready to explore your cart? Let's take this shopping journey together — one fun step at a time! 😊</p>
+
+  <div>
+    <button onclick="addToCart()">🛒 Add Products</button>
+    <button onclick="applyCoupon()">🏷️ Apply Coupon</button>
+    <button onclick="createOrder()">📦 Create Order</button>
+    <button onclick="makePayment()">💳 Make Payment</button>
+    <button onclick="scheduleDelivery()">🚚 Schedule Delivery</button>
+    <button onclick="showOrderSummary()">📄 View Summary</button>
+    <button onclick="sendInvoice()">📧 Send Invoice</button>
+    <button onclick="showWalletBalance()">💰 Show Wallet</button>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    let cart = [];
+    let wallet = 1000;
+    let orderId = "";
+    let orderCreated = false;
+    let paymentDone = false;
+
+    function log(message) {
+      const box = document.createElement("div");
+      box.className = "log";
+      box.textContent = "🛍️ " + message;
+      document.getElementById("output").appendChild(box);
+    }
+
+    // Add products anytime
+    function addToCart() {
+      cart.push({ name: "Wireless Earbuds", price: 800 });
+      cart.push({ name: "Phone Case", price: 200 });
+      log("✅ Products added to your cart: Wireless Earbuds & Phone Case.");
+    }
+
+    // Apply coupon (only if cart has items)
+    function applyCoupon() {
+      if (cart.length === 0) {
+        log("⚠️ You need to add items to your cart before applying a coupon.");
+        return;
+      }
+      let discount = 100;
+      cart.forEach(item => item.price -= discount / cart.length);
+      log("🏷️ ₹100 discount applied across your cart items.");
+    }
+
+    // Create order (only if cart has items)
+    function createOrder() {
+      if (cart.length === 0) {
+        log("⚠️ Please add items to your cart before creating an order.");
+        return;
+      }
+      orderId = "ORD" + Math.floor(Math.random() * 10000);
+      orderCreated = true;
+      log(`📦 Your order has been created! Order ID: ${orderId}`);
+    }
+
+    // Make payment (only if order is created)
+    function makePayment() {
+      if (!orderCreated) {
+        log("⚠️ Please create an order before making payment.");
+        return;
+      }
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      log(`💳 Total bill is ₹${total}. Checking your wallet...`);
+
+      if (wallet >= total) {
+        wallet -= total;
+        paymentDone = true;
+        log("✅ Payment successful! Thank you for shopping.");
+      } else {
+        log("❌ Insufficient balance. Please check your wallet.");
+      }
+    }
+
+    // Schedule delivery (only if payment done)
+    function scheduleDelivery() {
+      if (!paymentDone) {
+        log("⚠️ Please complete payment before scheduling delivery.");
+        return;
+      }
+      log("🚚 Great! Your order will be delivered within 3 days.");
+    }
+
+    // Show summary (if cart has items)
+    function showOrderSummary() {
+      if (cart.length === 0) {
+        log("⚠️ No items in cart to summarize.");
+        return;
+      }
+      log("📄 Order Summary:");
+      cart.forEach(item => log(`➡️ ${item.name} - ₹${item.price.toFixed(2)}`));
+    }
+
+    // Send invoice (only if order created)
+    function sendInvoice() {
+      if (!orderCreated) {
+        log("⚠️ You need to create an order before sending invoice.");
+        return;
+      }
+      log(`📧 Invoice sent for Order ID: ${orderId}`);
+    }
+
+    // Show wallet
+    function showWalletBalance() {
+      log(`💰 Your wallet balance is ₹${wallet}`);
+    }
+  </script>
+
+</body>
+</html>
