@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Event Bubbling & Capturing</title>
+</head>
+
+<body>
+    <div id="grandparent">Grandparent
+        <div id="parent">Parent
+            <div id="child">Child</div>
+        </div>
+    </div>
+
+    <script>
+        // Without bubbling/capturing
+        document.getElementById("grandparent").addEventListener("click", () => {
+            console.log("grandparent");
+        }, false); // bubbling
+
+        document.getElementById("parent").addEventListener("click", () => {
+            console.log("parent");
+        }, false);
+
+        document.getElementById("child").addEventListener("click", () => {
+            console.log("child");
+        }, false);
+    </script>
+</body>
+
+</html>
